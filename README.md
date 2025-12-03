@@ -39,7 +39,7 @@ An immersive, interactive 3D visualization of compiler phases built with React, 
 
 ## 🎬 Demo
 
-Visit the live demo: [Compiler Phases 3D Visualization](#)
+Visit the live demo: [Compiler Phases 3D Visualization](https://compiler-phases-chi.vercel.app/)
 
 **Key Compiler Phases Covered:**
 1. Lexical Analysis (Scanner)
