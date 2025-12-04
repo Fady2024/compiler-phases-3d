@@ -14,41 +14,41 @@ export const compilerPhases: CompilerPhase[] = [
   {
     id: "source",
     name: "Source Code",
-    subtitle: "Input",
-    description: "The original program written by the programmer in a high-level language.",
+    subtitle: "Input Program",
+    description: "The original high-level program written by the developer.",
     color: "#22c55e",
     position: [-4, 2.5, 0],
     details: [
-      "Human-readable code",
-      "High-level language syntax",
-      "Entry point of compilation"
+      "Written in High-Level Language",
+      "Human-readable syntax",
+      "Describes program logic",
+      "Starting point of compilation"
     ],
     inputCode: `// Developer writes:
 int main() {
-  int x = 5;
-  int y = x + 10;
-  return y;
+  int x = 5 + 10;
+  return x;
 }`,
-    outputCode: `// Same code passed to
+    outputCode: `// Passed to
 // Lexical Analyzer`
   },
   {
     id: "lexical",
     name: "Lexical Analysis",
     subtitle: "Tokenization",
-    description: "Breaks the source code into tokens - the smallest meaningful units.",
+    description: "Converts the sequence of characters into a sequence of tokens.",
     color: "#3b82f6",
     position: [-4, 0.5, 0],
     details: [
-      "Scanner/Tokenizer",
-      "Identifies keywords, identifiers",
-      "Removes whitespace & comments",
-      "Generates token stream"
+      "Scans character stream",
+      "Recognizes lexical patterns",
+      "Creates tokens (lexemes)",
+      "Filters whitespace & comments"
     ],
     inputCode: `int x = 5 + 10;`,
     outputCode: `<KEYWORD, int>
 <ID, x>
-<ASSIGN, =>
+<OP, =>
 <NUM, 5>
 <OP, +>
 <NUM, 10>
@@ -57,61 +57,73 @@ int main() {
   {
     id: "syntax",
     name: "Syntax Analysis",
-    subtitle: "Parse Tree",
-    description: "Analyzes the token stream to build a parse tree based on grammar rules.",
+    subtitle: "Parsing",
+    description: "Analyzes the grammatical structure and builds the Abstract Syntax Tree (AST).",
     color: "#ec4899",
     position: [0, 0.5, 0],
     details: [
-      "Parser component",
-      "Grammar validation",
-      "Builds Abstract Syntax Tree",
-      "Detects syntax errors"
+      "Checks Grammar Rules",
+      "Builds Parse Tree / AST",
+      "Verifies structure",
+      "Uses Context-Free Grammars"
     ],
     inputCode: `Tokens:
-int, x, =, 5, +, 10, ;`,
-    outputCode: `    [=]
-   /   \\
- [x]   [+]
+<KEYWORD,int> <ID,x> <OP,=>
+<NUM,5> <OP,+> <NUM,10>
+<SEMICOLON,;>`,
+    outputCode: `AST (Parse Tree):
+       [=]
       /   \\
-    [5]   [10]`
+   [x]    [+]
+         /   \\
+      [5]   [10]`
   },
   {
     id: "semantic",
     name: "Semantic Analysis",
     subtitle: "Type Checking",
-    description: "Checks for semantic consistency and type correctness.",
+    description: "Adds semantic meaning to AST: type checking, scope validation, and symbol resolution.",
     color: "#f97316",
     position: [4, 0.5, 0],
     details: [
-      "Type checking",
-      "Symbol table management",
-      "Scope resolution",
-      "Semantic error detection"
+      "Annotates AST with types",
+      "Type Checking & Validation",
+      "Symbol Table lookup",
+      "Scope & Declaration checks"
     ],
-    inputCode: `Symbol Table:
-| Name | Type | Scope |
-|------|------|-------|
-| x    | int  | main  |`,
-    outputCode: `✓ Type check: int + int → int
-✓ Variable x declared
-✓ Assignment compatible
-✓ No semantic errors`
+    inputCode: `AST from Parser:
+    [=]
+   /   \\
+ [x]   [+]
+      /   \\
+    [5]   [10]`,
+    outputCode: `Annotated AST:
+    [=]:int
+   /        \\
+[x]:int   [+]:int
+         /      \\
+    [5]:int  [10]:int
+
+Symbol Table: x→int
+✓ All type-safe`
   },
   {
     id: "intermediate",
     name: "Intermediate Code",
-    subtitle: "Abstract Code",
-    description: "Generates platform-independent intermediate representation.",
+    subtitle: "IR Generation",
+    description: "Generates a machine-independent intermediate representation.",
     color: "#8b5cf6",
     position: [4, -1.5, 0],
     details: [
-      "Three-address code",
-      "Platform independent",
-      "Easier to optimize",
-      "Portable representation"
+      "3-Address Code (3AC)",
+      "Machine Independent",
+      "Simplified instructions",
+      "Easier to optimize"
     ],
-    inputCode: `x = 5 + 10`,
-    outputCode: `t1 = 5
+    inputCode: `From Semantic:
+int x = 5 + 10;`,
+    outputCode: `TAC (3-Address Code):
+t1 = 5
 t2 = 10
 t3 = t1 + t2
 x = t3`
@@ -119,60 +131,67 @@ x = t3`
   {
     id: "optimization",
     name: "Code Optimization",
-    subtitle: "Performance",
-    description: "Improves the intermediate code for better performance.",
+    subtitle: "Optimization",
+    description: "Improves code efficiency by reducing size and execution time.",
     color: "#ef4444",
     position: [0, -1.5, 0],
     details: [
-      "Dead code elimination",
-      "Loop optimization",
-      "Constant folding",
-      "Register allocation"
+      "Constant Folding",
+      "Dead Code Elimination",
+      "Loop Optimization",
+      "Reduces resource usage"
     ],
-    inputCode: `t1 = 5
+    inputCode: `Before Optimization:
+t1 = 5
 t2 = 10
 t3 = t1 + t2
 x = t3`,
-    outputCode: `// Constant folding:
-x = 15`
+    outputCode: `After Optimization:
+// Constant folding applied
+x = 15
+
+(Eliminated: t1, t2, t3)`
   },
   {
     id: "codegen",
     name: "Code Generation",
-    subtitle: "Machine Code",
-    description: "Translates optimized code into target machine code.",
+    subtitle: "Assembly",
+    description: "Translates the optimized IR into target-specific assembly code.",
     color: "#3b82f6",
     position: [-4, -1.5, 0],
     details: [
-      "Target architecture specific",
-      "Instruction selection",
-      "Memory management",
-      "Assembly generation"
+      "Instruction Selection",
+      "Register Allocation",
+      "Memory Management",
+      "Target-specific (e.g., x86, ARM)"
     ],
-    inputCode: `x = 15`,
-    outputCode: `MOV R1, #15
-STORE R1, [x]`
+    inputCode: `Optimized IR:
+x = 15`,
+    outputCode: `Assembly (ARM):
+MOV R0, #15    ; Load 15
+STR R0, [x]    ; Store to x`
   },
   {
     id: "executable",
     name: "Executable Code",
-    subtitle: "Output",
-    description: "The final machine-executable binary ready to run.",
+    subtitle: "Binary",
+    description: "The final binary file ready to be executed by the machine.",
     color: "#22c55e",
     position: [-4, -3.5, 0],
     details: [
-      "Binary format",
-      "Machine-executable",
-      "Platform specific",
-      "Ready for execution"
+      "Binary Format (ELF/PE)",
+      "Linker Resolution",
+      "Machine Code",
+      "Ready to Run"
     ],
     inputCode: `Assembly:
-MOV R1, #15
-STORE R1, [x]`,
-    outputCode: `Binary:
-0x7F 0x45 0x4C 0x46
-0x02 0x01 0x01 0x00
-...executable`
+MOV R0, #15
+STR R0, [x]`,
+    outputCode: `Binary (ELF):
+7F 45 4C 46 02 01 01 00
+E3 A0 00 0F E5 9F 00 04
+...
+(Executable machine code)`
   }
 ];
 
