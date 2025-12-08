@@ -121,6 +121,57 @@ export const PhaseDetails = ({ activePhase, onClose }: PhaseDetailsProps) => {
               </div>
             )}
 
+            {/* Technical Details (Deep Dive) */}
+            {phase.technicalDetails && (
+              <div className="mb-6 space-y-3">
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-2">
+                  Deep Dive
+                  <div className="h-px flex-1 bg-border/50"></div>
+                </h3>
+
+                <div className="space-y-3">
+                  {/* What */}
+                  {phase.technicalDetails.what && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4 }}
+                      className="bg-primary/5 rounded-lg p-3 border border-primary/10"
+                    >
+                      <span className="text-xs font-bold text-primary block mb-1">What is it?</span>
+                      <p className="text-xs text-foreground/80 leading-relaxed">{phase.technicalDetails.what}</p>
+                    </motion.div>
+                  )}
+
+                  {/* Why */}
+                  {phase.technicalDetails.why && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5 }}
+                      className="bg-orange-500/5 rounded-lg p-3 border border-orange-500/10"
+                    >
+                      <span className="text-xs font-bold text-orange-600 dark:text-orange-400 block mb-1">Why is it needed?</span>
+                      <p className="text-xs text-foreground/80 leading-relaxed">{phase.technicalDetails.why}</p>
+                    </motion.div>
+                  )}
+
+                  {/* How */}
+                  {phase.technicalDetails.how && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.6 }}
+                      className="bg-blue-500/5 rounded-lg p-3 border border-blue-500/10"
+                    >
+                      <span className="text-xs font-bold text-blue-600 dark:text-blue-400 block mb-1">How does it work?</span>
+                      <p className="text-xs text-foreground/80 leading-relaxed">{phase.technicalDetails.how}</p>
+                    </motion.div>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* Details list */}
             <div className="space-y-2">
               <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
